@@ -7,4 +7,3 @@ elif number == 0:
     print('%s is zero' % number)
 elif number < 0:
     print('%s is negative' % number)
-    
