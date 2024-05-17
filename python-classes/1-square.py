@@ -3,10 +3,7 @@
 
 
 class Square:
-    """This is the class Square
-
-    for now its an empty classs
-    """
+    """empty classe"""
     def __init__(self, size):
         """this is the constructor"""
         self.__size = size
