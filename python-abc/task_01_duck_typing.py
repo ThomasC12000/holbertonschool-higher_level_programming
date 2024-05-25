@@ -18,17 +18,7 @@ class Shape(ABC):
 class Circle(Shape):
     '''Class Circle that inherits from the abstract class Shape'''
     def __init__(self, radius):
-        self.radius = radius
-
-    @property
-    def radius(self):
-        return self.radius
-
-    @radius.setter
-    def radius(self, value):
-        if value < 0:
-            raise ValueError("width cannot be negative")
-        self.radius = value
+        self.radius = abs(radius)
 
     def area(self):
         return pi * self.radius ** 2
@@ -38,6 +28,21 @@ class Circle(Shape):
 
 
 class Rectangle(Shape):
+    '''Class Rectangle that inherits from the abstract class Shape'''
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.height * self.width
+
+    def perimeter(self):
+        return (self.height + self.width) * 2
+
+
+def shape_info(shape):
+    print(f"Area: {shape.area()}")
+    print(f"Perimeter: {shape.perimeter()}")ss Rectangle(Shape):
     '''Class Rectangle that inherits from the abstract class Shape'''
     def __init__(self, width, height):
         self.width = width
