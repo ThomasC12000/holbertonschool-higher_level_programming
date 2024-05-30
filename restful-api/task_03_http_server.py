@@ -1,7 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
+
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+
     def do_GET(self):
         if self.path == "/":
             self.send_response(200)
@@ -27,11 +29,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             error_message = {"error": "Endpoint not found"}
             self.wfile.write(bytes(json.dumps(error_message), "utf-8"))
 
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
+
+def run(server_class=HTTPServer,
+        handler_class=SimpleHTTPRequestHandler,
+        port=8000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print(f'Starting httpd server on port {port}')
+    print('Starting httpd server on port {}'.format(port))
     httpd.serve_forever()
+
 
 if __name__ == "__main__":
     run()
