@@ -3,33 +3,31 @@
 
 
 def pascal_triangle(n):
-    '''
-    Returns a list of lists of integers representing
-    the Pascal’s triangle of n
-    '''
-
     if n <= 0:
         return []
 
     triangle = []
-    for i in range(n):
-        row = []
-        for j in range(i + 1):
-            if j == 0 or j == i:
-                row.append(1)
-            else:
-                val = triangle[i - 1][j - 1] + triangle[i - 1][j]
-                row.append(val)
-        triangle.append(row)
+
+    for level in range(n):
+        if level == 0:
+            triangle.append([1])
+        else:
+            new_row = [1]
+            last_row = triangle[level - 1]
+
+            for i in range(1, len(last_row)):
+                new_row.append(last_row[i - 1] + last_row[i])
+
+            new_row.append(1)
+            triangle.append(new_row)
 
     return triangle
 
+
 def print_triangle(triangle):
-    '''Print the triangle'''
-    
     for row in triangle:
         print("[{}]".format(",".join([str(x) for x in row])))
 
+
 if __name__ == "__main__":
-    triangle = pascal_triangle(5)
-    print_triangle(triangle)
+    print_triangle(pascal_triangle(5))
