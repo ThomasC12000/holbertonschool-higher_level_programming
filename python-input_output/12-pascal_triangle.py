@@ -3,31 +3,12 @@
 
 
 def pascal_triangle(n):
-    if n <= 0:
-        return []
-
-    triangle = []
-
-    for level in range(n):
-        if level == 0:
-            triangle.append([1])
-        else:
-            new_row = [1]
-            last_row = triangle[level - 1]
-
-            for i in range(1, len(last_row)):
-                new_row.append(last_row[i - 1] + last_row[i])
-
-            new_row.append(1)
-            triangle.append(new_row)
-
+    '''n is the number of row of the pascal triangle'''
+    triangle = [[1]]
+    for i in range(1, n):
+        row = [1]
+        for j in range(1, i):
+            row.append(triangle[i-1][j-1] + triangle[i-1][j])
+        row.append(1)
+        triangle.append(row)
     return triangle
-
-
-def print_triangle(triangle):
-    for row in triangle:
-        print("[{}]".format(",".join([str(x) for x in row])))
-
-
-if __name__ == "__main__":
-    print_triangle(pascal_triangle(5))
