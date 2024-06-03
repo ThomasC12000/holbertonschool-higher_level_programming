@@ -1,3 +1,3 @@
 FROM alpine:latest
-
-CMD ["echo", "Hello, World!"]
+RUN apk add --no-cache mysql-client
+CMD echo "Hello, World!"
