@@ -14,7 +14,7 @@ if __name__ == "__main__":
     db_name = sys.argv[3]
 
     connection_string = \
-        f"mysql+mysqldb://{mysql_username}:{mysql_password}@localhost/{db_name}"
+f"mysql+mysqldb://{mysql_username}:{mysql_password}@localhost/{db_name}"
 
     engine = create_engine(connection_string, pool_pre_ping=True)
 
