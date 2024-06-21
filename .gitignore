@@ -5,3 +5,5 @@ python-input_output/12-pascal_triangle.py
 SQL_more_queries/database.sql
 python-object_relational_mapping/0-select_states.sql
 python-object_relational_mapping/4-cities_by_state.sql
+python-object_relational_mapping/6-model_state.sql
+python-object_relational_mapping/6-model_state.py
