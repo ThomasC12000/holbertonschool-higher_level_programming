@@ -11,3 +11,5 @@ python-object_relational_mapping/7-model_state_fetch_all.sql
 python-object_relational_mapping/__pycache__/model_state.cpython-310.pyc
 python-object_relational_mapping/14-model_city_fetch_by_state.sql
 python-server_side_rendering/items.json
+python-server_side_rendering/products.csv
+python-server_side_rendering/products.json
