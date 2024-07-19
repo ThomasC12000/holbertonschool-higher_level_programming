@@ -1,64 +1,46 @@
-from flask import Flask, render_template, request, jsonify
-import sqlite3
-import csv
+from flask import Flask, render_template, request
 import json
+import csv
+import sqlite3
 
 app = Flask(__name__)
 
-# Fonction pour lire les données de la base de données SQLite
-def fetch_data_from_sqlite():
+def fetch_json_data():
+    with open('products.json') as f:
+        return json.load(f)
+
+def fetch_csv_data():
+    with open('products.csv') as f:
+        reader = csv.DictReader(f)
+        return [row for row in reader]
+
+def fetch_sql_data():
     conn = sqlite3.connect('products.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, price, category FROM Products")
+    cursor.execute('SELECT * FROM Products')
     rows = cursor.fetchall()
     conn.close()
-    products = []
-    for row in rows:
-        product = {
-            'id': row[0],
-            'name': row[1],
-            'price': row[2],
-            'category': row[3]
-        }
-        products.append(product)
-    return products
+    return [{'id': row[0], 'name': row[1], 'category': row[2], 'price': row[3]} for row in rows]
 
-# Fonction pour lire les données JSON
-def fetch_data_from_json():
-    with open('products.json') as json_file:
-        data = json.load(json_file)
-    return data
+@app.route('/products')
+def products():
+    source = request.args.get('source')
+    product_id = request.args.get('id')
 
-# Fonction pour lire les données CSV
-def fetch_data_from_csv():
-    products = []
-    with open('products.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            product = {
-                'id': row['id'],
-                'name': row['name'],
-                'price': float(row['price']),
-                'category': row['category']
-            }
-            products.append(product)
-    return products
+    if source == 'json':
+        products = fetch_json_data()
+    elif source == 'csv':
+        products = fetch_csv_data()
+    elif source == 'sql':
+        products = fetch_sql_data()
+    else:
+        return render_template('product_display.html', error="Wrong source")
 
-@app.route('/')
-def home():
-    source = request.args.get('source', default='json', type=str)
-    try:
-        if source == 'json':
-            products = fetch_data_from_json()
-        elif source == 'csv':
-            products = fetch_data_from_csv()
-        elif source == 'sql':
-            products = fetch_data_from_sqlite()
-        else:
-            return render_template('error.html', message='Wrong source'), 400
-    except Exception as e:
-        return render_template('error.html', message=str(e)), 500
-    
+    if product_id:
+        products = [product for product in products if str(product['id']) == product_id]
+        if not products:
+            return render_template('product_display.html', error="Product not found")
+
     return render_template('product_display.html', products=products)
 
 if __name__ == '__main__':
